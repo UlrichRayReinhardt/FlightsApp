@@ -29,16 +29,16 @@ public class MainFlights {
         }
         db.printCityList();
 
-        db.addFlight("4645", "BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
-        db.addFlight("2342", "BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
-        db.addFlight("2346", "BA", db.getCity("London"), db.getCity("Riga"), EMBRAER_195);
-        db.addFlight("6745", "BA", db.getCity("London"), db.getCity("Tokyo"), EMBRAER_190);
-        db.addFlight("5434", "BA", db.getCity("London"), db.getCity("Paris"), AIRBUS_A320);
-        db.addFlight("4645", "UI", db.getCity("Dubai"), db.getCity("London"), BOEING_737);
-        db.addFlight("4861", "UI", db.getCity("Kyiv"), db.getCity("Riga"), BOEING_737);
-        db.addFlight("3486", "UI", db.getCity("Kyiv"), db.getCity("Paris"), BOEING_737);
-        db.addFlight("4864", "UI", db.getCity("Kyiv"), db.getCity("Dubai"), BOEING_737);
-
+        db.addFlight("BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
+        db.addFlight( "BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
+        db.addFlight( "BA", db.getCity("London"), db.getCity("Riga"), EMBRAER_195);
+        db.addFlight("BA", db.getCity("London"), db.getCity("Tokyo"), EMBRAER_190);
+        db.addFlight( "BA", db.getCity("London"), db.getCity("Paris"), AIRBUS_A320);
+        db.addFlight( "UI", db.getCity("Dubai"), db.getCity("London"), BOEING_737);
+        db.addFlight( "UI", db.getCity("Kyiv"), db.getCity("Riga"), BOEING_737);
+        db.addFlight( "UI", db.getCity("Kyiv"), db.getCity("Paris"), BOEING_737);
+        db.addFlight( "UI", db.getCity("Kyiv"), db.getCity("Dubai"), BOEING_737);
+       // db.addFlight( "UI", db.getCity("Dubai"), db.getCity("Dubai"), BOEING_737);
 
         List<Flight> brit = db.getFlightsOfCompany("BA");
         List<Flight> ukr = db.getFlightsOfCompany("UI");
@@ -48,8 +48,9 @@ public class MainFlights {
         Collections.sort(myList, ComparatorFlight.DistanceComparator);
         db.printFlightList(myList);
 
-
         List<Flight> fromKyiv = db.getFlightsFrom("Kyiv");
+        List<Flight> toKyiv = db.getFlightsTo("Kyiv");
+
         db.printFlightList(fromKyiv);
 
         //System.exit(0);

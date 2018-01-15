@@ -1,71 +1,68 @@
 package Jedis_db;
 
 import FlightApp.AirPlaneType;
+import FlightApp.DuplicateException;
 import FlightApp.Flight;
 import Location.City;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DB {
     //TODO create db to hold all the info. used only for 1st init. Current class is temporary
-
     private static DB dbInstance;
-    private HashMap<String, City> cities = null;
-    private HashMap<String, Flight> flights = null;
+    private HashSet<City> cities = null;
+    private HashSet<Flight> flights = null;
 
     public DB() {
-        cities = new HashMap<>();
-        flights = new HashMap<>();
-
+        cities = new HashSet<>();
+        flights = new HashSet<>();
     }
 
     public static synchronized DB getDbInstance() {
         if (dbInstance == null)
             dbInstance = new DB();
-
         return dbInstance;
     }
 
     public City getCity(String name) {
-        if (cities.containsKey(name))
-            return cities.get(name);
-        else {
-            System.out.println("No city " + name + " in database. Please recheck name or add new City");
-            return null;
+        for (City city : cities) {
+            if (city.getName().equals(name))
+                return city;
         }
+        System.out.println("No city " + name + " in database. Please recheck name or add new City");
+        return null;
     }
 
     public void addCity(City city) {
-        cities.putIfAbsent(city.getName(), city);
+        cities.add(city);
     }
 
-    public List<City> getCitiesList() {
-        return new ArrayList<>(cities.values());
+    private void addFlight(Flight flight) {
+        flights.add(flight);
     }
 
-    private void addFlight(String id, Flight flight) {
-        flights.putIfAbsent(id, flight);
-    }
+    public void addFlight(String company, City from, City to, AirPlaneType airPlane) {
+        try {
+            if (from.equals(to))
+                throw new DuplicateException("Departure and destination cities couldn't be the same");
+            addFlight(new Flight(company, from, to, airPlane));
+        } catch (DuplicateException e) {
+            System.out.println(e.toString() + "\nFlight "+ from.getName() + " to " + to.getName() + " doesn't added");
+        }
+        }
 
-    public void addFlight(String id, String company, City from, City to, AirPlaneType airPlane) {
-        addFlight(id, (new Flight(id, company, from, to, airPlane)));
-    }
+        public List<Flight> getFlightsOfCompany (String company){
+            return flights.stream().filter(x -> x.getCompany() == company).collect(Collectors.toList());
+        }
 
-    public HashMap<String, Flight> getFlights() {
-        return flights;
-    }
+        public List<Flight> getFlightsFrom (String from){
+            return flights.stream().filter(x -> x.getDirection().getDeparture() == from).collect(Collectors.toList());
+        }
 
-    public List<Flight> getFlightsOfCompany(String company) {
-        return flights.values().stream().filter(x -> x.getCompany() == company).collect(Collectors.toList());
-    }
-
-    public List<Flight> getFlightsFrom(String from) {
-        return flights.values().stream().filter(x -> x.getDirection().getDeparture() == from).collect(Collectors.toList());
-    }
+        public List<Flight> getFlightsTo (String to){
+            return flights.stream().filter(x -> x.getDirection().getDeparture() == to).collect(Collectors.toList());
+        }
 
     public void printFlightList(List<Flight> flights) {
         for (Flight flight : flights) {
@@ -75,8 +72,8 @@ public class DB {
     }
 
     public void printCityList() {
-        for (Map.Entry<String, City> entry : cities.entrySet()) {
-            System.out.println(entry.getValue().toString());
+        for (City city : cities) {
+            System.out.println(city.toString());
         }
         System.out.println("-----------------");
     }

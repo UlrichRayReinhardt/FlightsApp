@@ -15,11 +15,11 @@ public class Flight {
     private String id;
     private double ticketPrice;
 
-    public Flight(String id, String company, City from, City to, AirPlaneType airPlane) { //TODO filter for 2 the same cities
+    public Flight(String company, City from, City to, AirPlaneType airPlane) { //TODO filter for 2 the same cities
         this.company = company;
         this.direction = new Direction(from, to);
         this.airPlane = airPlane;
-        this.id = direction.getDirectionCode() + "_" + id;
+        this.id = direction.getDesignatorsCode() + "_" + getCode();
         setTicketPrice();
     }
 
@@ -31,15 +31,15 @@ public class Flight {
         this.company = company;
         this.direction = direction;
         this.airPlane = airPlane;
-        this.id = direction.getDirectionCode() + "_" + id;
+        this.id = getCode();
         setTicketPrice();
     }
 
     @Override
     public String toString() {
         NumberFormat formatter = new DecimalFormat("#0.00");
-       return company + " " +
-       id + " " +
+        return company + " " +
+                id + " " +
                 direction.departure.getName() + " " +
                 direction.destination.getName() + " " +
                 airPlane.name() + " " +
@@ -66,7 +66,10 @@ public class Flight {
         return company;
     }
 
+    public String getCode() {
+        return company.hashCode() % 100 + "" +
+                airPlane.hashCode() % 10 + "" +
+                direction.hashCode() % 10;
 
-
-
+    }
 }

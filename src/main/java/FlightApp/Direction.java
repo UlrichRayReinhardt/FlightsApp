@@ -14,7 +14,7 @@ public class Direction {
         distance = checkDistance();
     }
 
-    public String getDirectionCode() {
+    public String getDesignatorsCode() {
         return "" + departure.codeLetter() + destination.codeLetter();
     }
 

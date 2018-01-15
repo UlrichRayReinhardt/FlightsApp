@@ -26,10 +26,8 @@ public class AirCompany {
 
 
     private void analyzeDuplicateByBortNumber(String number) throws DuplicateException {
-        //for (AirPlane plane : planes)
         if (planes.contains(number))
             throw new DuplicateException("----AirPlane with bort number " + number + " already exists");
-
     }
 
     public String getCompanyName() {
