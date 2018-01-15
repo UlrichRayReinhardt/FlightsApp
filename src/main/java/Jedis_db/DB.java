@@ -38,15 +38,11 @@ public class DB {
         cities.add(city);
     }
 
-    private void addFlight(Flight flight) {
-        flights.add(flight);
-    }
-
     public void addFlight(String company, City from, City to, AirPlaneType airPlane) {
         try {
             if (from.equals(to))
                 throw new DuplicateException("Departure and destination cities couldn't be the same");
-            addFlight(new Flight(company, from, to, airPlane));
+            flights.add(new Flight(company, from, to, airPlane));
         } catch (DuplicateException e) {
             System.out.println(e.toString() + "\nFlight "+ from.getName() + " to " + to.getName() + " doesn't added");
         }

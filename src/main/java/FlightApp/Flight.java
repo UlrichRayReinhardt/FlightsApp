@@ -6,33 +6,23 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Flight {
-
     //TODO Номер рейсу IATA code http://www.iata.org/services/pages/codes.aspx
-
     private String company;
     private Direction direction;
     private final AirPlaneType airPlane;
     private String id;
     private double ticketPrice;
 
-    public Flight(String company, City from, City to, AirPlaneType airPlane) { //TODO filter for 2 the same cities
+    public Flight(String company, City from, City to, AirPlaneType airPlane) {
         this.company = company;
         this.direction = new Direction(from, to);
         this.airPlane = airPlane;
-        this.id = direction.getDesignatorsCode() + "_" + getCode();
+        this.id = generateCode();
         setTicketPrice();
     }
 
     public String getId() {
         return id;
-    }
-
-    public Flight(String company, Direction direction, AirPlaneType airPlane) {
-        this.company = company;
-        this.direction = direction;
-        this.airPlane = airPlane;
-        this.id = getCode();
-        setTicketPrice();
     }
 
     @Override
@@ -66,10 +56,13 @@ public class Flight {
         return company;
     }
 
-    public String getCode() {
-        return company.hashCode() % 100 + "" +
+    private String generateCode() {
+        return direction.getDesignatorsCode() + "_" +
+                company.hashCode() % 10 + "" +
                 airPlane.hashCode() % 10 + "" +
-                direction.hashCode() % 10;
-
+                direction.hashCode() % 10 + "" +
+                direction.getDesignatorsCode().hashCode() % 10;
     }
+
+
 }
