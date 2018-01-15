@@ -7,19 +7,6 @@ public class City {
     int code;
     Location location;
 
-    @Deprecated
-    public City(String name, int code) {
-        this.name = name;
-        this.code = code;
-        try {
-            location = new GeoCode().getLocation(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (GeoCode.LocationNotFoundException e) {
-            e.doNothing();
-        }
-    }
-
     public City(String name, double lat, double lng) {
         this.name = name;
         this.code = code;
@@ -29,18 +16,6 @@ public class City {
     @Override
     public String toString() {
         return name;
-    }
-
-
-    public City(String name) {
-        this.name = name;
-         try {
-            location = new GeoCode().getLocation(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (GeoCode.LocationNotFoundException e) {
-            e.doNothing();
-        }
     }
 
     public Location getLocation() {

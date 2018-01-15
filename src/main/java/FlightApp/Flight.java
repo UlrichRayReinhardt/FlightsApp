@@ -9,7 +9,7 @@ public class Flight {
 
     //TODO Номер рейсу IATA code http://www.iata.org/services/pages/codes.aspx
 
-    private String company; //
+    private String company;
     private Direction direction;
     private final AirPlaneType airPlane;
     private String id;
@@ -19,7 +19,7 @@ public class Flight {
         this.company = company;
         this.direction = new Direction(from, to);
         this.airPlane = airPlane;
-        this.id = id;
+        this.id = direction.getDirectionCode() + "_" + id;
         setTicketPrice();
     }
 
@@ -31,12 +31,15 @@ public class Flight {
         this.company = company;
         this.direction = direction;
         this.airPlane = airPlane;
+        this.id = direction.getDirectionCode() + "_" + id;
+        setTicketPrice();
     }
 
     @Override
     public String toString() {
         NumberFormat formatter = new DecimalFormat("#0.00");
        return company + " " +
+       id + " " +
                 direction.departure.getName() + " " +
                 direction.destination.getName() + " " +
                 airPlane.name() + " " +

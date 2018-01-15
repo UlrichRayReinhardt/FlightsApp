@@ -24,8 +24,6 @@ public class GeoCode {
         List<GeocoderResult> results = geocodeResponse.getResults();
         if (results.size() >= 1)
             return new Location(results.get(0).getGeometry().getLocation());
-        /*if(geocodeResponse.getStatus().equals("OVER_QUERY_LIMIT")){
-             }*/
         throw new LocationNotFoundException(place);
     }
 

@@ -14,8 +14,7 @@ public class Direction {
         distance = checkDistance();
     }
 
-    @Override
-    public String toString() {
+    public String getDirectionCode() {
         return "" + departure.codeLetter() + destination.codeLetter();
     }
 
