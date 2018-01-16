@@ -39,7 +39,7 @@ public class MainFlights {
         List<Flight> fromKyiv = db.getFlightsFrom("Kyiv");
         List<Flight> toKyiv = db.getFlightsTo("Kyiv");
 
-        db.printFlightList(fromKyiv);
+        db.printFlightList(fromKyiv);*/
 
         //System.exit(0);
     }
