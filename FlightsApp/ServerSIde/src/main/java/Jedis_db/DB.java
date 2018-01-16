@@ -34,6 +34,10 @@ public class DB {
         return null;
     }
 
+    public List<City> getCityList() {
+         return new ArrayList<>(cities);
+    }
+
     public void addCity(City city) {
         cities.add(city);
     }
@@ -44,21 +48,21 @@ public class DB {
                 throw new DuplicateException("Departure and destination cities couldn't be the same");
             flights.add(new Flight(company, from, to, airPlane));
         } catch (DuplicateException e) {
-            System.out.println(e.toString() + "\nFlight "+ from.getName() + " to " + to.getName() + " doesn't added");
+            System.out.println(e.toString() + "\nFlight " + from.getName() + " to " + to.getName() + " doesn't added");
         }
-        }
+    }
 
-        public List<Flight> getFlightsOfCompany (String company){
-            return flights.stream().filter(x -> x.getCompany() == company).collect(Collectors.toList());
-        }
+    public List<Flight> getFlightsOfCompany(String company) {
+        return flights.stream().filter(x -> x.getCompany() == company).collect(Collectors.toList());
+    }
 
-        public List<Flight> getFlightsFrom (String from){
-            return flights.stream().filter(x -> x.getDirection().getDeparture() == from).collect(Collectors.toList());
-        }
+    public List<Flight> getFlightsFrom(String from) {
+        return flights.stream().filter(x -> x.getDirection().getDeparture() == from).collect(Collectors.toList());
+    }
 
-        public List<Flight> getFlightsTo (String to){
-            return flights.stream().filter(x -> x.getDirection().getDeparture() == to).collect(Collectors.toList());
-        }
+    public List<Flight> getFlightsTo(String to) {
+        return flights.stream().filter(x -> x.getDirection().getDeparture() == to).collect(Collectors.toList());
+    }
 
     public void printFlightList(List<Flight> flights) {
         for (Flight flight : flights) {

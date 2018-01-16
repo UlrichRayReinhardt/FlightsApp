@@ -6,7 +6,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Flight {
-    //TODO Номер рейсу IATA code http://www.iata.org/services/pages/codes.aspx
     private String company;
     private Direction direction;
     private final AirPlaneType airPlane;
