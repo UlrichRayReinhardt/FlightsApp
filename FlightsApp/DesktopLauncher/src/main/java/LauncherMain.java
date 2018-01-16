@@ -10,15 +10,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sample.MainFlights;
 
 
-public class Main extends Application {
+public class LauncherMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        MainFlights.run();
+        InitFirst.run();
 
         Group root = new Group();
         ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());

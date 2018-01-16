@@ -1,13 +1,7 @@
 package sample;
 
-import FlightApp.ComparatorFlight;
-import FlightApp.Flight;
 import Jedis_db.DB;
 import Location.City;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static FlightApp.AirPlaneType.*;
 
@@ -22,7 +16,7 @@ public class MainFlights {
         db.addCity(new City("Kyiv", 50.4501, 30.5234));
         db.addCity(new City("Riga", 56.9496487, 24.1051865));
         db.addCity(new City("Tokyo", 35.6894875, 139.6917064));
-        db.printCityList();
+        System.out.println("=====================\nCities initialized\n=====================");
 
         db.addFlight("BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
         db.addFlight("BA", db.getCity("London"), db.getCity("Kyiv"), EMBRAER_170);
@@ -33,8 +27,8 @@ public class MainFlights {
         db.addFlight("UI", db.getCity("Kyiv"), db.getCity("Riga"), BOEING_737);
         db.addFlight("UI", db.getCity("Kyiv"), db.getCity("Paris"), BOEING_737);
         db.addFlight("UI", db.getCity("Kyiv"), db.getCity("Dubai"), BOEING_737);
-
-        List<Flight> brit = db.getFlightsOfCompany("BA");
+        System.out.println("=====================\nFlights initialized\n=====================");
+        /*List<Flight> brit = db.getFlightsOfCompany("BA");
         List<Flight> ukr = db.getFlightsOfCompany("UI");
         List<Flight> myList = new ArrayList<>();
         myList.addAll(ukr);
