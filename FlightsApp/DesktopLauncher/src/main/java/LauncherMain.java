@@ -17,7 +17,7 @@ public class LauncherMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        InitFirst.run();
+        InitServer.run();
 
         Group root = new Group();
         ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());

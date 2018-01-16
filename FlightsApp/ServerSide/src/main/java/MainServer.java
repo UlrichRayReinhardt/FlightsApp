@@ -2,6 +2,6 @@
 public class MainServer {
 
     public static void main(String[] args) {
-        InitFirst.run();
+        InitServer.run();
     }
 }

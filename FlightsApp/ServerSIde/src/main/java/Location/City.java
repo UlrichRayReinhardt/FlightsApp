@@ -1,7 +1,5 @@
 package Location;
 
-import java.io.IOException;
-
 public class City {
     String name;
     Location location;
@@ -14,6 +12,10 @@ public class City {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String toStringData() {
+        return name + " " + location.toString();
     }
 
     public Location getLocation() {
