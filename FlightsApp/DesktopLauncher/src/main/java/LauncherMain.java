@@ -1,15 +1,25 @@
+import FlightApp.Direction;
+import FlightApp.Flight;
 import Jedis_db.DB;
+import Jedis_db.JedisController;
 import Location.City;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import redis.clients.jedis.JedisPool;
 
 
 public class LauncherMain extends Application {
@@ -18,8 +28,11 @@ public class LauncherMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         InitServer.run();
+        JedisPool pool = new JedisPool("localhost");
+        JedisController controller = new JedisController(pool);
+        controller.removeFromRedis();
 
-        Group root = new Group();
+        /*Group cityGroup = new Group();
         ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());
 
         ComboBox<City> comboBoxfrom = new ComboBox<>();
@@ -40,15 +53,42 @@ public class LauncherMain extends Application {
         box1.getChildren().add(comboBoxto);
         Button addCity = new Button("add city");
         box1.getChildren().add(addCity);
-        root.getChildren().add(box1);
-
+        cityGroup.getChildren().add(box1);
 
         addCity.setOnAction(event -> {
             new NewCityDialog(primaryStage);
-        });
+        });*/
+        TableView<Flight> table = new TableView<>();
+        ObservableList<Flight> list = FXCollections.observableArrayList(DB.getDbInstance().getFlightsList());
+
+        Group flightsGroup = new Group();
+        final Label label = new Label("Flights table");
+        label.setFont(new Font("Arial", 20));
+        table.setEditable(false);
+
+        TableColumn flightId = new TableColumn("ID");
+        flightId.setMinWidth(100);
+        flightId.setCellValueFactory(new PropertyValueFactory<Flight, String>("id"));
+
+        TableColumn cityFrom = new TableColumn("Departure");
+        cityFrom.setMinWidth(100);
+        cityFrom.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure"));
+
+        TableColumn cityTo = new TableColumn("Destination");
+        cityTo.setMinWidth(100);
+        cityTo.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
+        table.setItems(list);
+        table.getColumns().addAll(flightId, cityFrom, cityTo);
+
+        final VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(label, table);
+
+        flightsGroup.getChildren().addAll(vbox);
 
         primaryStage.setTitle("Flights app");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(flightsGroup, 300, 275));
         primaryStage.show();
     }
 

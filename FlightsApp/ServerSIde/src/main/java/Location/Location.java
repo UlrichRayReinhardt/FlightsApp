@@ -21,7 +21,7 @@ public class Location {
 
     public static Location fetchLocation(String name) {
         try {
-           return new GeoCode().getLocation(name);
+            return new GeoCode().getLocation(name);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (GeoCode.LocationNotFoundException e) {
@@ -29,7 +29,6 @@ public class Location {
         }
         return null;
     }
-
 
 
     public double lat() {

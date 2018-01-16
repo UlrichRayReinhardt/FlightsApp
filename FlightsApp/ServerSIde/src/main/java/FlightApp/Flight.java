@@ -1,23 +1,45 @@
 package FlightApp;
 
+import Jedis_db.DB;
 import Location.City;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Flight {
     private String company;
-    private Direction direction;
+    private String departure;
+    private String destination;
+    private double distance;
+    private String designatorsCode;
+
     private final AirPlaneType airPlane;
     private String id;
     private double ticketPrice;
 
-    public Flight(String company, City from, City to, AirPlaneType airPlane) {
+    public Flight(String company, String departure, String destination, AirPlaneType airPlane) {
         this.company = company;
-        this.direction = new Direction(from, to);
+        this.departure = departure;
+        this.destination = destination;
         this.airPlane = airPlane;
         this.id = generateCode();
+        distance = Direction.getDistance(departure, destination);
+        designatorsCode = departure.charAt(0) + "" + destination.charAt(0);
         setTicketPrice();
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public String getDeparture() {
+        return departure;
+    }
+
+    public String getDestination() {
+        return destination;
     }
 
     public String getId() {
@@ -29,26 +51,18 @@ public class Flight {
         NumberFormat formatter = new DecimalFormat("#0.00");
         return company + " " +
                 id + " " +
-                direction.departure.getName() + " " +
-                direction.destination.getName() + " " +
+                departure + " " +
+                destination + " " +
                 airPlane.name() + " " +
                 "#ticketPrice " + formatter.format(ticketPrice) + "$";
     }
 
-    public double getDistance() {
-        return direction.getDistance();
-    }
-
-    public void setTicketPrice() {
-        this.ticketPrice = direction.getDistance() * 0.6;
+    private void setTicketPrice() {
+        this.ticketPrice = distance * 0.6;
     }
 
     public double getTicketPrice() {
         return ticketPrice;
-    }
-
-    public Direction getDirection() {
-        return direction;
     }
 
     public String getCompany() {
@@ -56,12 +70,11 @@ public class Flight {
     }
 
     private String generateCode() {
-        return direction.getDesignatorsCode() + "_" +
+        return designatorsCode + "_" +
                 company.hashCode() % 10 + "" +
                 airPlane.hashCode() % 10 + "" +
-                direction.hashCode() % 10 + "" +
-                direction.getDesignatorsCode().hashCode() % 10;
+                departure.hashCode() % 10 + "" +
+                designatorsCode.hashCode() % 10;
     }
-
 
 }

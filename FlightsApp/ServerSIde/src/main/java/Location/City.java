@@ -2,11 +2,10 @@ package Location;
 
 public class City {
     String name;
-    Location location;
 
-    public City(String name, double lat, double lng) {
+    public City(String name) {
         this.name = name;
-        location = new Location(lat,lng);
+        //location = new Location(lat,lng);
     }
 
     @Override
@@ -15,12 +14,10 @@ public class City {
     }
 
     public String toStringData() {
-        return name + " " + location.toString();
+        return name;
     }
 
-    public Location getLocation() {
-        return location;
-    }
+
 
     public char codeLetter() {
         return name.charAt(0);
