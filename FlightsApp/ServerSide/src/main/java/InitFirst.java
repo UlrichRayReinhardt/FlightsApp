@@ -1,11 +1,11 @@
-package sample;
+
 
 import Jedis_db.DB;
 import Location.City;
 
 import static FlightApp.AirPlaneType.*;
 
-public class MainFlights {
+public class InitFirst {
 
     public static void run() {
 
