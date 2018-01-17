@@ -1,16 +1,11 @@
 package FlightApp;
 
-import Jedis_db.DB;
-import Jedis_db.JedisController;
-import Location.Location;
+import Location.City;
 
 public class Direction {
 
-   public static double getDistance(String from, String to){
-
-        Location dept = Location.fetchLocation(from);
-         Location dest = Location.fetchLocation(to);
-        return checkDistance(dept.lat(), dept.lng(), dest.lat(), dest.lng());
+   public static double getDistance(City from, City to) {
+        return checkDistance(from.getLatitude(), from.getLongitude(), to.getLatitude(), to.getLongitude());
     }
 
     private static double checkDistance(double lat1, double lon1, double lat2, double lon2) {

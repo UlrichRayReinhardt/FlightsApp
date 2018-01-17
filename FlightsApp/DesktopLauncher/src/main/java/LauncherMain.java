@@ -20,7 +20,6 @@ import java.util.List;
 
 import static FlightApp.AirPlaneType.*;
 
-
 public class LauncherMain extends Application {
 
     @Override
@@ -29,34 +28,6 @@ public class LauncherMain extends Application {
         InitServer.run();
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
-       // controller.removeFromRedis();
-
-        /*Group cityGroup = new Group();
-        ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());
-
-        ComboBox<City> comboBoxfrom = new ComboBox<>();
-        comboBoxfrom.setItems(list);
-        comboBoxfrom.getSelectionModel().select(1);
-
-        ComboBox<City> comboBoxto = new ComboBox<>();
-        comboBoxto.setItems(list);
-        comboBoxto.getSelectionModel().select(1);
-
-
-        VBox box1 = new VBox();
-        Label toCities = new Label("Select City to:");
-        box1.getChildren().add(toCities);
-        box1.getChildren().add(comboBoxfrom);
-        Label fromCities = new Label("Select City from:");
-        box1.getChildren().add(fromCities);
-        box1.getChildren().add(comboBoxto);
-        Button addCity = new Button("add city");
-        box1.getChildren().add(addCity);
-        cityGroup.getChildren().add(box1);
-
-        addCity.setOnAction(event -> {
-            new NewCityDialog(primaryStage);
-        });*/
         TableView<Flight> table = new TableView<>();
 
         List<Flight> tmp = new ArrayList<>();
@@ -64,6 +35,7 @@ public class LauncherMain extends Application {
         tmp.add(new Flight("BA", "Riga", "Tokyo", AIRBUS_A310.toString(),"1125","RT_2342","598"));
         tmp.add(new Flight("BA", "Paris", "Tokyo", BOEING_767.toString(),"533","PT_4896","248"));
         tmp.add(new Flight("BA", "London", "Riga", BOEING_777.toString(),"315","LR_8474","188"));
+        //tmp.add(new Flight(new FlightContext("UI","Riga","Kyiv", "Airbus_A330"),controller));
 
 
         ObservableList<Flight> list = FXCollections.observableArrayList(tmp);

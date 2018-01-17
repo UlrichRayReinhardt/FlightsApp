@@ -1,12 +1,8 @@
 package FileRead;
 
-import FlightApp.Flight;
 import Jedis_db.JedisController;
 import Location.City;
 import redis.clients.jedis.JedisPool;
-
-import static FlightApp.AirPlaneType.*;
-import static FlightApp.AirPlaneType.BOEING_737;
 
 public class BackUpData {
     /*public BackUpData(JedisPool pool) {
@@ -37,12 +33,12 @@ public class BackUpData {
         controller.addToRedis(new City("Riga", 56.9496487, 24.1051865));
         controller.addToRedis(new City("Tokyo", 35.6894875, 139.6917064));
 
-        controller.addToRedis(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString()));
+        /*controller.addToRedis(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString()));
         controller.addToRedis(new Flight("BA", "London", "Riga", EMBRAER_195.toString()));
         controller.addToRedis(new Flight("BA", "London", "Tokyo", EMBRAER_190.toString()));
         controller.addToRedis(new Flight("BA", "London", "Paris", AIRBUS_A320.toString()));
         controller.addToRedis(new Flight("UI", "Dubai", "London", BOEING_737.toString()));
         controller.addToRedis(new Flight("UI", "Kyiv", "Riga", BOEING_737.toString()));
         controller.addToRedis(new Flight("UI", "Kyiv", "Paris", BOEING_737.toString()));
-        controller.addToRedis(new Flight("UI", "Kyiv", "Dubai", BOEING_737.toString()));
+        controller.addToRedis(new Flight("UI", "Kyiv", "Dubai", BOEING_737.toString()));*/
     }}

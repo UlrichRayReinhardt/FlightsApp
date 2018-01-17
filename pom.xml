@@ -8,8 +8,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>ServerSide</module>
-        <module>DesktopLauncher</module>
+        <module>FlightsApp/DesktopLauncher</module>
+        <module>FlightsApp/ServerSide</module>
     </modules>
 
     <dependencies>

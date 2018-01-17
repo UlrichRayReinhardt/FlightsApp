@@ -1,6 +1,7 @@
 package Jedis_db;
 
 import FlightApp.Flight;
+import FlightApp.FlightContext;
 import Location.City;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -113,7 +114,7 @@ public class JedisController {
             String destination = data.get("destination");
             String airplane = data.get("airplane");
             String distance = data.get("distance");
-            return new Flight(company, departure, destination, airplane);
+            return new Flight(new FlightContext(company, departure, destination, airplane),this);
         } finally {
             if (null != jedis)
                 pool.returnResource(jedis);

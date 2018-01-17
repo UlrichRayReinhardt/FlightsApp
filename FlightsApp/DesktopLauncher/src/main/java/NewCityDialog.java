@@ -1,4 +1,3 @@
-import Jedis_db.DB;
 import Location.City;
 import Location.Location;
 import javafx.scene.Scene;
@@ -56,7 +55,32 @@ public class NewCityDialog extends Dialog<City> {
             //DB.getDbInstance().addCity(new City(textField.getText(),latitude,longitude));
         });
     }
+/*Group cityGroup = new Group();
+        ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());
 
+        ComboBox<City> comboBoxfrom = new ComboBox<>();
+        comboBoxfrom.setItems(list);
+        comboBoxfrom.getSelectionModel().select(1);
+
+        ComboBox<City> comboBoxto = new ComboBox<>();
+        comboBoxto.setItems(list);
+        comboBoxto.getSelectionModel().select(1);
+
+
+        VBox box1 = new VBox();
+        Label toCities = new Label("Select City to:");
+        box1.getChildren().add(toCities);
+        box1.getChildren().add(comboBoxfrom);
+        Label fromCities = new Label("Select City from:");
+        box1.getChildren().add(fromCities);
+        box1.getChildren().add(comboBoxto);
+        Button addCity = new Button("add city");
+        box1.getChildren().add(addCity);
+        cityGroup.getChildren().add(box1);
+
+        addCity.setOnAction(event -> {
+            new NewCityDialog(primaryStage);
+        });*/
 
 }
 

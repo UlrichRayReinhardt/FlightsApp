@@ -1,5 +1,8 @@
 package FlightApp;
 
+import Jedis_db.JedisController;
+import Location.City;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -13,13 +16,15 @@ public class Flight {
     private String id;
     private double ticketPrice;
 
-    public Flight(String company, String departure, String destination, String airPlane) {
-        this.company = company;
-        this.departure = departure;
-        this.destination = destination;
-        this.airPlane = airPlane;
-        distance = 0;//Direction.getDistance(departure, destination);
-        designatorsCode = departure.charAt(0) + "" + destination.charAt(0);
+    public Flight(FlightContext context, JedisController controller) {
+        this.company = context.getCompany();
+        this.departure = context.getDeparture();
+        this.destination = context.getDestination();
+        this.airPlane = context.getAirPlane();
+        City from = controller.getCityFromRedis(departure);
+        City to = controller.getCityFromRedis(destination);
+        distance = Direction.getDistance(from, to);
+        designatorsCode = context.getDeparture().charAt(0) + "" + context.getDestination().charAt(0);
         generateCode();
         setTicketPrice();
     }
@@ -33,6 +38,7 @@ public class Flight {
         this.id = code;
         this.ticketPrice = Double.valueOf(ticketPrice);
     }
+
 
     public double getDistance() {
         return distance;
