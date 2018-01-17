@@ -14,6 +14,11 @@ public class Location {
         this.longitude = location.getLng().doubleValue();
     }
 
+    public Location(String lat, String lng) {
+        this.latitude = Double.valueOf(lat);
+        this.longitude = Double.valueOf(lng);
+    }
+
     public static Location fetchLocation(String name) {
         try {
             return new GeoCode().getLocation(name);

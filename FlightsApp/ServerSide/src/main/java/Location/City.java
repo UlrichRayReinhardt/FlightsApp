@@ -1,14 +1,18 @@
 package Location;
 
 public class City {
-    String name;
-    private double latitude;
-    private double longitude;
+    private String name;
+    private String latitude;
+    private String longitude;
 
-    public City(String name, double latitude, double longitude) {
+    public City(String name, String latitude, String longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Location getLocation(){
+        return new Location(latitude, longitude);
     }
 
     @Override
@@ -24,11 +28,12 @@ public class City {
         return name;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getLatitude() {
+        return latitude != null ? latitude : "0";
     }
 
-    public double getLongitude() {
-        return longitude;
+    public String getLongitude() {
+        return longitude != null ? longitude : "0";
+
     }
 }

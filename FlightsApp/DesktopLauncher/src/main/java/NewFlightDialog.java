@@ -1,51 +1,87 @@
+import FlightApp.AirPlaneType;
 import FlightApp.Flight;
+import FlightApp.FlightContext;
 import Jedis_db.JedisController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
 
 public class NewFlightDialog extends Dialog<Flight> {
+
+    FlightContext tmp = null;
+    Flight tmpObj = null;
+
     public NewFlightDialog(JedisController controller) {
         Stage stage = new Stage();
         stage.setTitle("New flight");
-
         Group group = new Group();
 
-        //Label label1 = new Label("Enter city:");
-
-        List<String> cityList = controller.readCitiesFromRedis();
+        List<String> cityList = controller.getCityList();
         ObservableList<String> list = FXCollections.observableArrayList(cityList);
 
         ComboBox<String> comboBoxfrom = new ComboBox<>();
         comboBoxfrom.setItems(list);
-        comboBoxfrom.getSelectionModel().select(1);
+        comboBoxfrom.getSelectionModel().select(0);
 
         ComboBox<String> comboBoxto = new ComboBox<>();
         comboBoxto.setItems(list);
-        comboBoxto.getSelectionModel().select(1);
+        comboBoxto.getSelectionModel().select(0);
 
+        VBox mainBox = new VBox();
+        HBox builderBox = new HBox();
 
-        VBox box1 = new VBox();
+        VBox vbox0 = new VBox();
+        Label airCompany = new Label("Select aircompany:");
+        TextField aircom = new TextField();
+        vbox0.getChildren().add(airCompany);
+        vbox0.getChildren().add(aircom);
+
+        VBox vbox1 = new VBox();
         Label toCities = new Label("Select City to:");
-        box1.getChildren().add(toCities);
-        box1.getChildren().add(comboBoxfrom);
-        Label fromCities = new Label("Select City from:");
-        box1.getChildren().add(fromCities);
-        box1.getChildren().add(comboBoxto);
-        Button addCity = new Button("add city");
-        box1.getChildren().add(addCity);
-        group.getChildren().add(box1);
+        vbox1.getChildren().add(toCities);
+        vbox1.getChildren().add(comboBoxfrom);
 
-        stage.setScene(new Scene(group, 400, 200));
+        VBox vbox2 = new VBox();
+        Label fromCities = new Label("Select City from:");
+        vbox2.getChildren().add(fromCities);
+        vbox2.getChildren().add(comboBoxto);
+
+        VBox vbox3 = new VBox();
+        Label choosePlane = new Label("Choose plane:");
+        ComboBox<AirPlaneType> planeTypeComboBox = new ComboBox<>();
+        planeTypeComboBox.getItems().setAll(AirPlaneType.values());
+        comboBoxto.getSelectionModel().select(1);
+        vbox3.getChildren().add(choosePlane);
+        vbox3.getChildren().add(planeTypeComboBox);
+
+        Label output = new Label();
+        Button addFlight = new Button("add Flight");
+        addFlight.setOnAction(event -> {
+            tmp = new FlightContext(aircom.getText(), comboBoxfrom.getValue(), comboBoxto.getValue(), planeTypeComboBox.getValue().toString());
+            tmpObj = FlightContext.createFromContext(tmp,controller);
+            controller.addToRedis(tmpObj);
+            output.setText("new Flight created"  + tmpObj.toString());
+        });
+        builderBox.getChildren().addAll(vbox0, vbox1, vbox2, vbox3);
+        mainBox.getChildren().addAll(builderBox, addFlight, output);
+
+      /*new Flight(
+                        new FlightContext
+                                (aircom.getAccessibleText(),
+                comboBoxfrom.getSelectionModel().getSelectedItem(),
+                comboBoxto.getSelectionModel().getSelectedItem(),
+                planeTypeComboBox.getSelectionModel().toString())),controller);*/
+
+
+        group.getChildren().add(mainBox);
+        stage.setScene(new Scene(group, 450, 200));
         stage.show();
 
        /* Button getLocation = new Button("fetch location data");

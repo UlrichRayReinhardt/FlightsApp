@@ -1,11 +1,7 @@
-import FileRead.BackUpData;
-import Jedis_db.DB;
 import Jedis_db.JedisController;
 import Jedis_db.RedisThreat;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-
-import static FlightApp.AirPlaneType.*;
 
 public class InitServer {
 
@@ -13,15 +9,14 @@ public class InitServer {
         new RedisThreat().run();
         JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
         JedisController controller = new JedisController(pool);
-        new BackUpData(pool);
+        //new BackUpData(pool);
         //controller.getCityFromRedis("London");
         /*if (db.getCityList().isEmpty() | db.getFlightsList().isEmpty()) {
             new BackUpData(pool);*/
             //controller.readCitiesFromRedis();
 
-        System.out.println("=====================\nCities initialized\n=====================");
-
-        System.out.println("=====================\nFlights initialized\n=====================");
+        System.out.println("Cities initialized\n=====================");
+        System.out.println("Flights initialized\n=====================");
         /*List<Flight> brit = db.getFlightsOfCompany("BA");
         List<Flight> ukr = db.getFlightsOfCompany("UI");
         List<Flight> myList = new ArrayList<>();

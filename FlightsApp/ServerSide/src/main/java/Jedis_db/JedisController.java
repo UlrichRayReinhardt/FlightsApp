@@ -1,7 +1,6 @@
 package Jedis_db;
 
 import FlightApp.Flight;
-import FlightApp.FlightContext;
 import Location.City;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -20,7 +19,7 @@ public class JedisController {
         Jedis jedis = null;
         Map<String, String> data = new HashMap<>();
         data.put("name", city.getName());
-        data.put("latitude", String.valueOf(city.getLatitude()));
+        data.put("latitude", city.getLatitude());
         data.put("longitude", String.valueOf(city.getLongitude()));
         try {
             jedis = pool.getResource();
@@ -32,22 +31,18 @@ public class JedisController {
     }
 
     public void addToRedis(Flight flight) {
-        Jedis jedis = null;
+        Jedis jedis = pool.getResource();
         Map<String, String> data = new HashMap<>();
-        data.put("id", flight.getId());
         data.put("company", flight.getCompany());
         data.put("departure", flight.getDeparture());
         data.put("destination", flight.getDestination());
         data.put("airplane", flight.getAirPlane());
         data.put("distance", String.valueOf(flight.getDistance()));
-        try {
-            jedis = pool.getResource();
-            jedis.hmset("flight:" + flight.getId(), data);
-        } finally {
-            if (null != jedis)
-                pool.returnResource(jedis);
-        }
+        data.put("id", flight.getId());
+        data.put("ticketPrice", flight.getId());
+        jedis.hmset("flight:" + flight.getId(), data);
     }
+
 
     public void removeCity(String key) {
         Jedis jedis = null;
@@ -72,18 +67,10 @@ public class JedisController {
     }
 
     public void clear() {
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
-            Set<String> names = jedis.keys("*");
-            java.util.Iterator<String> it = names.iterator();
-
-            while (it.hasNext()) {
-                jedis.del(it.next());
-            }
-        } finally {
-            if (null != jedis)
-                pool.returnResource(jedis);
+        Jedis jedis = pool.getResource();
+        Set<String> keys = jedis.keys("*");
+        for (String key : keys) {
+            jedis.del(key);
         }
     }
 
@@ -92,8 +79,8 @@ public class JedisController {
         try {
             jedis = pool.getResource();
             Map<String, String> city = jedis.hgetAll("city:" + name);
-            double lat = Double.valueOf(city.get("latitude"));
-            double lng = Double.valueOf(city.get("longitude"));
+            String lat = city.get("latitude");
+            String lng = city.get("longitude");
             return new City(name, lat, lng);
         } finally {
             if (null != jedis)
@@ -102,52 +89,45 @@ public class JedisController {
 
     }
 
-    public Flight getFlightFromRedis(String id) {
+    public Flight getFlightFromRedis(String name) {
         Jedis jedis = null;
         try {
             jedis = pool.getResource();
-            Map<String, String> data = jedis.hgetAll("flight:" + id);
-            String name = data.get("id");
+            Map<String, String> data = jedis.hgetAll("flight:" + name);
             String company = data.get("company");
             String departure = data.get("departure");
             String destination = data.get("destination");
             String airplane = data.get("airplane");
             String distance = data.get("distance");
-            return new Flight(new FlightContext(company, departure, destination, airplane), this);
+            String id = data.get("id");
+            String price = data.get("ticketPrice");
+            return new Flight(company, departure, destination, airplane, distance, id, price);
+
         } finally {
             if (null != jedis)
                 pool.returnResource(jedis);
         }
     }
 
-    public List<City> readFlightsFromRedis() {
-        Jedis jedis = null;
-        List<City> list = new ArrayList<>();
-        try {
-            jedis = pool.getResource();
-            Set<String> names = jedis.keys("flight:*");
-            java.util.Iterator<String> it = names.iterator();
-            while (it.hasNext()) {
-                String s = it.next();
-                //list.add(new Flight())
-                //System.out.println(s + " : " + jedis.get(s));
-            }
-        } finally {
-            if (null != jedis)
-                pool.returnResource(jedis);
-        }
+    public List<String> getFlightStringList() {
+        List<String> list = new ArrayList<>();
+        Jedis jedis = pool.getResource();
+        Set<String> data = jedis.keys("flight:" + "*");
+        list.addAll(data);
         return list;
     }
 
-    public List<String> readCitiesFromRedis() {
+    public List<String> getCityList() {
         List<String> list = new ArrayList<>();
         Jedis jedis = pool.getResource();
-            Set<String> names = jedis.keys("city:*");
-            java.util.Iterator<String> it = names.iterator();
-            while (it.hasNext()) {
-               list.add(it.next());
-            }
-    return list;
+        Set<String> names = jedis.keys("city:*");
+        for (String name : names) {
+            City city = getCityFromRedis(name);
+            String cleanName = city.getName().replaceAll("city:", "");
+            list.add(cleanName);
+
+        }
+        return list;
     }
 
 }

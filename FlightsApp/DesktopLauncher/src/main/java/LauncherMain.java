@@ -1,5 +1,5 @@
+import FileRead.BackUpData;
 import FlightApp.Flight;
-import FlightApp.FlightContext;
 import Jedis_db.JedisController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -20,8 +20,6 @@ import redis.clients.jedis.JedisPool;
 import java.util.ArrayList;
 import java.util.List;
 
-import static FlightApp.AirPlaneType.*;
-
 public class LauncherMain extends Application {
 
     @Override
@@ -30,16 +28,15 @@ public class LauncherMain extends Application {
         InitServer.run();
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
+        //controller.clear();
+        new BackUpData(pool);
+
+
         TableView<Flight> table = new TableView<>();
-        //new BackUpData(pool);
         List<Flight> tmp = new ArrayList<>();
-        tmp.add(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString(), "654", "LK_4868", "215"));
-        tmp.add(new Flight("BA", "Riga", "Tokyo", AIRBUS_A310.toString(), "1125", "RT_2342", "598"));
-        tmp.add(new Flight("BA", "Paris", "Tokyo", BOEING_767.toString(), "533", "PT_4896", "248"));
-        tmp.add(new Flight("BA", "London", "Riga", BOEING_777.toString(), "315", "LR_8474", "188"));
-
-        tmp.add(new Flight(new FlightContext("UI", "Riga", "Kyiv", "Airbus_A330"), controller));
-
+        for (String flight : controller.getFlightStringList()) {
+            tmp.add(controller.getFlightFromRedis(flight));
+        }
         ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
 
         Group flightsGroup = new Group();
