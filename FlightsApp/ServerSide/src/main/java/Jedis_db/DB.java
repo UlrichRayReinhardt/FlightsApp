@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 public class DB {
     //TODO create db to hold all the info. used only for 1st init. Current class is temporary
     private static DB dbInstance;
-    private HashSet<Flight> flights = null;
-    private HashMap<String, Location> cityGeo = null;
+    /*private HashSet<Flight> flights = null;
+    private HashMap<String, Location> cityGeo = null;*/
 
 
     public DB() {
-        flights = new HashSet<>();
-        cityGeo = new HashMap<>();
+        /*flights = new HashSet<>();
+        cityGeo = new HashMap<>();*/
     }
 
     public static synchronized DB getDbInstance() {
@@ -27,28 +27,19 @@ public class DB {
         return dbInstance;
     }
 
-    public Location getCitylocation(String name) {
-        if (cityGeo.containsKey(name))
-            return cityGeo.get(name);
-        else {
-            System.out.println("No city " + name + " in database. Please recheck name or add new City");
-            return null;
-        }
-    }
-
     public List<City> getCityList() {
         return new ArrayList<>();
     }
 
-    public List<Flight> getFlightsList() {
+    /*public List<Flight> getFlightsList() {
         return new ArrayList<>(flights);
     }
 
     public void addCity(String city, Location location) {
         cityGeo.put(city,location);
-    }
+    }*/
 
-    public void addFlight(String company, String from, String to, AirPlaneType airPlane) {
+    /*public void addFlight(String company, String from, String to, AirPlaneType airPlane) {
         try {
             if (from.equals(to))
                 throw new DuplicateException("Departure and destination cities couldn't be the same");
@@ -56,9 +47,9 @@ public class DB {
         } catch (DuplicateException e) {
             System.out.println(e.toString() + "\nFlight " + from + " to " + to + " doesn't added");
         }
-    }
+    }*/
 
-    public List<Flight> getFlightsOfCompany(String company) {
+  /*  public List<Flight> getFlightsOfCompany(String company) {
         return flights.stream().filter(x -> x.getCompany() == company).collect(Collectors.toList());
     }
 
@@ -68,7 +59,7 @@ public class DB {
 
     public List<Flight> getFlightsTo(String to) {
         return flights.stream().filter(x -> x.getDestination() == to).collect(Collectors.toList());
-    }
+    }*/
 
     public void printFlightList(List<Flight> flights) {
         for (Flight flight : flights) {

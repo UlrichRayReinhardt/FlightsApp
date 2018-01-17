@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import redis.clients.jedis.JedisPool;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class LauncherMain extends Application {
 
@@ -30,7 +33,7 @@ public class LauncherMain extends Application {
         InitServer.run();
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
-        controller.removeFromRedis();
+       // controller.removeFromRedis();
 
         /*Group cityGroup = new Group();
         ObservableList<City> list = FXCollections.observableArrayList(DB.getDbInstance().getCityList());
@@ -59,7 +62,10 @@ public class LauncherMain extends Application {
             new NewCityDialog(primaryStage);
         });*/
         TableView<Flight> table = new TableView<>();
-        ObservableList<Flight> list = FXCollections.observableArrayList(DB.getDbInstance().getFlightsList());
+
+        List<Flight> tmp = new ArrayList<>();
+
+        ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
 
         Group flightsGroup = new Group();
         final Label label = new Label("Flights table");

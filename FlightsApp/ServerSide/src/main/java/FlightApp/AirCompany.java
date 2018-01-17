@@ -13,7 +13,7 @@ public class AirCompany {
         this.planes = new HashSet<>();
     }
 
-    public void registerPlane(AirPlane plane, String bortNumber) {
+    /*public void registerPlane(AirPlane plane, String bortNumber) {
         try {
             analyzeDuplicateByBortNumber(plane.getBortNumber());
             plane.setBortNumber(bortNumber);
@@ -32,5 +32,5 @@ public class AirCompany {
 
     public String getCompanyName() {
         return companyName;
-    }
+    }*/
 }

@@ -11,27 +11,16 @@ public class InitServer {
 
     public static void run() {
         new RedisThreat().run();
-        DB db = DB.getDbInstance();
         JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost");
         JedisController controller = new JedisController(pool);
-
-        controller.allCitiesToDB();
-        if (db.getCityList().isEmpty()) {
-            new BackUpData(pool);
-            controller.allCitiesToDB();
-        }
+        new BackUpData(pool);
+        //controller.getCityFromRedis("London");
+        /*if (db.getCityList().isEmpty() | db.getFlightsList().isEmpty()) {
+            new BackUpData(pool);*/
+            //controller.readCitiesFromRedis();
 
         System.out.println("=====================\nCities initialized\n=====================");
 
-
-        db.addFlight("BA", "London", "Kyiv", EMBRAER_170);
-        db.addFlight("BA", "London", "Riga", EMBRAER_195);
-        db.addFlight("BA", "London", "Tokyo", EMBRAER_190);
-        db.addFlight("BA", "London", "Paris", AIRBUS_A320);
-        db.addFlight("UI", "Dubai", "London", BOEING_737);
-        db.addFlight("UI", "Kyiv", "Riga", BOEING_737);
-        db.addFlight("UI", "Kyiv", "Paris", BOEING_737);
-        db.addFlight("UI", "Kyiv", "Dubai", BOEING_737);
         System.out.println("=====================\nFlights initialized\n=====================");
         /*List<Flight> brit = db.getFlightsOfCompany("BA");
         List<Flight> ukr = db.getFlightsOfCompany("UI");

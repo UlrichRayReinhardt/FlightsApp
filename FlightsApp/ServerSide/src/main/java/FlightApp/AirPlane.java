@@ -2,7 +2,7 @@ package FlightApp;
 
 public class AirPlane{
 
-    private AirPlaneType type;
+    /*private AirPlaneType type;
     private String bortNumber;
 
    public AirPlane(AirPlaneType type) {
@@ -29,7 +29,7 @@ public class AirPlane{
     public String planeInfo() {
         String info = "#Airplane: " + getPlaneModel() + " #Bort: " + getBortNumber();
         return info;
-    }
+    }*/
 
 
 }

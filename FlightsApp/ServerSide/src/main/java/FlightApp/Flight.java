@@ -14,19 +14,18 @@ public class Flight {
     private String destination;
     private double distance;
     private String designatorsCode;
-
-    private final AirPlaneType airPlane;
+    private String airPlane;
     private String id;
     private double ticketPrice;
 
-    public Flight(String company, String departure, String destination, AirPlaneType airPlane) {
+    public Flight(String company, String departure, String destination, String airPlane) {
         this.company = company;
         this.departure = departure;
         this.destination = destination;
         this.airPlane = airPlane;
-        this.id = generateCode();
-        distance = Direction.getDistance(departure, destination);
+        distance = 0;//Direction.getDistance(departure, destination);
         designatorsCode = departure.charAt(0) + "" + destination.charAt(0);
+        generateCode();
         setTicketPrice();
     }
 
@@ -42,6 +41,10 @@ public class Flight {
         return destination;
     }
 
+    public String getAirPlane() {
+        return airPlane;
+    }
+
     public String getId() {
         return id;
     }
@@ -53,7 +56,7 @@ public class Flight {
                 id + " " +
                 departure + " " +
                 destination + " " +
-                airPlane.name() + " " +
+                airPlane + " " +
                 "#ticketPrice " + formatter.format(ticketPrice) + "$";
     }
 
@@ -69,8 +72,8 @@ public class Flight {
         return company;
     }
 
-    private String generateCode() {
-        return designatorsCode + "_" +
+    private void generateCode() {
+        id = designatorsCode + "_" +
                 company.hashCode() % 10 + "" +
                 airPlane.hashCode() % 10 + "" +
                 departure.hashCode() % 10 + "" +
