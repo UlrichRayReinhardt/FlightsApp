@@ -1,28 +1,24 @@
-import FlightApp.Direction;
 import FlightApp.Flight;
-import Jedis_db.DB;
 import Jedis_db.JedisController;
-import Location.City;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static FlightApp.AirPlaneType.*;
 
 
 public class LauncherMain extends Application {
@@ -64,6 +60,11 @@ public class LauncherMain extends Application {
         TableView<Flight> table = new TableView<>();
 
         List<Flight> tmp = new ArrayList<>();
+        tmp.add(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString(),"654","LK_4868","215"));
+        tmp.add(new Flight("BA", "Riga", "Tokyo", AIRBUS_A310.toString(),"1125","RT_2342","598"));
+        tmp.add(new Flight("BA", "Paris", "Tokyo", BOEING_767.toString(),"533","PT_4896","248"));
+        tmp.add(new Flight("BA", "London", "Riga", BOEING_777.toString(),"315","LR_8474","188"));
+
 
         ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
 
@@ -88,13 +89,13 @@ public class LauncherMain extends Application {
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
-        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.getChildren().addAll(label, table);
 
         flightsGroup.getChildren().addAll(vbox);
 
         primaryStage.setTitle("Flights app");
-        primaryStage.setScene(new Scene(flightsGroup, 300, 275));
+        primaryStage.setScene(new Scene(flightsGroup, 320, 275));
         primaryStage.show();
     }
 

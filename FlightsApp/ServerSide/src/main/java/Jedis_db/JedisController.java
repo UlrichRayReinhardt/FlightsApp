@@ -1,17 +1,10 @@
 package Jedis_db;
 
-import FlightApp.AirPlane;
-import FlightApp.AirPlaneType;
 import FlightApp.Flight;
-import FlightApp.FlightCode;
 import Location.City;
-import Location.Location;
-import javafx.util.Pair;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 

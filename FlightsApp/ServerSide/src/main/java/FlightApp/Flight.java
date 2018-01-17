@@ -1,10 +1,5 @@
 package FlightApp;
 
-import Jedis_db.DB;
-import Location.City;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -27,6 +22,16 @@ public class Flight {
         designatorsCode = departure.charAt(0) + "" + destination.charAt(0);
         generateCode();
         setTicketPrice();
+    }
+
+    public Flight(String company, String departure, String destination, String airPlane, String distance, String code, String ticketPrice) {
+        this.company = company;
+        this.departure = departure;
+        this.destination = destination;
+        this.airPlane = airPlane;
+        this.distance = Double.valueOf(distance);
+        this.id = code;
+        this.ticketPrice = Double.valueOf(ticketPrice);
     }
 
     public double getDistance() {
