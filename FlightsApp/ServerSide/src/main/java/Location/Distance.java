@@ -1,8 +1,6 @@
-package FlightApp;
+package Location;
 
-import Location.City;
-
-public class Direction {
+public class Distance {
 
    public static double getDistance(City from, City to) {
         return checkDistance(from.getLatitude(), from.getLongitude(), to.getLatitude(), to.getLongitude());

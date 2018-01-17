@@ -14,11 +14,6 @@ public class Location {
         this.longitude = location.getLng().doubleValue();
     }
 
-    public Location(double lat, double lng) {
-        this.latitude = lat;
-        this.longitude = lng;
-    }
-
     public static Location fetchLocation(String name) {
         try {
             return new GeoCode().getLocation(name);
@@ -29,7 +24,6 @@ public class Location {
         }
         return null;
     }
-
 
     public double lat() {
         return latitude;

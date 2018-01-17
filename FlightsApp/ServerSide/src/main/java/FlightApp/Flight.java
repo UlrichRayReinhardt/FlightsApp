@@ -2,6 +2,7 @@ package FlightApp;
 
 import Jedis_db.JedisController;
 import Location.City;
+import Location.Distance;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -23,7 +24,7 @@ public class Flight {
         this.airPlane = context.getAirPlane();
         City from = controller.getCityFromRedis(departure);
         City to = controller.getCityFromRedis(destination);
-        distance = Direction.getDistance(from, to);
+        distance = Distance.getDistance(from, to);
         designatorsCode = context.getDeparture().charAt(0) + "" + context.getDestination().charAt(0);
         generateCode();
         setTicketPrice();

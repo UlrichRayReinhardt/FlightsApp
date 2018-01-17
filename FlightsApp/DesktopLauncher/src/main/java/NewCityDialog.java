@@ -52,7 +52,7 @@ public class NewCityDialog extends Dialog<City> {
         Button submit = new Button("Submit");
         content.getChildren().add(submit);
         submit.setOnAction(event2 -> {
-            //DB.getDbInstance().addCity(new City(textField.getText(),latitude,longitude));
+
         });
     }
 /*Group cityGroup = new Group();

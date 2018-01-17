@@ -1,4 +1,5 @@
 import FlightApp.Flight;
+import FlightApp.FlightContext;
 import Jedis_db.JedisController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -6,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,14 +31,14 @@ public class LauncherMain extends Application {
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
         TableView<Flight> table = new TableView<>();
-
+        //new BackUpData(pool);
         List<Flight> tmp = new ArrayList<>();
-        tmp.add(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString(),"654","LK_4868","215"));
-        tmp.add(new Flight("BA", "Riga", "Tokyo", AIRBUS_A310.toString(),"1125","RT_2342","598"));
-        tmp.add(new Flight("BA", "Paris", "Tokyo", BOEING_767.toString(),"533","PT_4896","248"));
-        tmp.add(new Flight("BA", "London", "Riga", BOEING_777.toString(),"315","LR_8474","188"));
-        //tmp.add(new Flight(new FlightContext("UI","Riga","Kyiv", "Airbus_A330"),controller));
+        tmp.add(new Flight("BA", "London", "Kyiv", EMBRAER_170.toString(), "654", "LK_4868", "215"));
+        tmp.add(new Flight("BA", "Riga", "Tokyo", AIRBUS_A310.toString(), "1125", "RT_2342", "598"));
+        tmp.add(new Flight("BA", "Paris", "Tokyo", BOEING_767.toString(), "533", "PT_4896", "248"));
+        tmp.add(new Flight("BA", "London", "Riga", BOEING_777.toString(), "315", "LR_8474", "188"));
 
+        tmp.add(new Flight(new FlightContext("UI", "Riga", "Kyiv", "Airbus_A330"), controller));
 
         ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
 
@@ -63,8 +65,12 @@ public class LauncherMain extends Application {
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.getChildren().addAll(label, table);
-
         flightsGroup.getChildren().addAll(vbox);
+
+        Button addFlight = new Button("Add new Flight");
+        addFlight.setOnAction(event -> new NewFlightDialog(controller));
+
+        flightsGroup.getChildren().add(addFlight);
 
         primaryStage.setTitle("Flights app");
         primaryStage.setScene(new Scene(flightsGroup, 320, 275));
