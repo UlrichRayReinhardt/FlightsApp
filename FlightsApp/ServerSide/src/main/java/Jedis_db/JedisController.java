@@ -2,6 +2,7 @@ package Jedis_db;
 
 import FlightApp.Flight;
 import FlightApp.FlightBuilder;
+import FlightApp.Suite;
 import Location.City;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -35,6 +36,16 @@ public class JedisController {
             if (null != jedis)
                 pool.returnResource(jedis);
         }
+    }
+
+    public void addToRedis(Suite suite) {
+        Jedis jedis = pool.getResource();
+        byte[] data;
+        for (Flight flight : suite.getList())
+            flight.getId();
+                String id = suite.getName();
+        //jedis.rpush(id.getBytes(), data);
+
     }
 
     public void addToRedis(Flight flight) {
@@ -136,4 +147,29 @@ public class JedisController {
         return list;
     }
 
+    public List<Suite> getSiutsList() {
+        List<Suite> list = new ArrayList<>();
+        Jedis jedis = pool.getResource();
+        Set<String> data = jedis.keys("suite:*");
+        for (String name : data) {
+            String cleanName = name.replaceAll("suite:", "");
+            Suite suite = getSuiteFromRedis(name);
+            list.add(suite);
+
+        }
+        return list;
+    }
+
+    private Suite getSuiteFromRedis(String name) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Map<String, String> suite = jedis.hgetAll("suite:" + name);
+
+            return new Suite(name, );
+        } finally {
+            if (null != jedis)
+                pool.returnResource(jedis);
+        }
+    }
 }
