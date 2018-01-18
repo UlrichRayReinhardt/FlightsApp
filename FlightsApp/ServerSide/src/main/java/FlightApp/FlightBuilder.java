@@ -34,11 +34,11 @@ public class FlightBuilder { //class builds new Flight
         return this;
     }
 
-    public String distance() {
+    String distance() {
         return String.valueOf(Distance.getDistance(departure.getLocation(), destination.getLocation()));
     }
 
-    public String code() {
+    String id() {
       String tmp = departure.codeLetter() + "" + destination.codeLetter() + "_" +
                 company.hashCode() % 10 + "" +
                 airPlane.hashCode() % 10 + "" +
@@ -47,7 +47,7 @@ public class FlightBuilder { //class builds new Flight
         return tmp.replaceAll("-", "");
     }
 
-    public String ticketPrice() {
+    String ticketPrice() {
         return String.valueOf(Distance.getDistance(departure.getLocation(), destination.getLocation()) * 0.6);
     }
 

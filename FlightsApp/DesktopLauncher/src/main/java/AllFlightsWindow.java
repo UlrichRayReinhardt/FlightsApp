@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllFlightsWindow extends Dialog<Flight> {
@@ -22,13 +21,11 @@ public class AllFlightsWindow extends Dialog<Flight> {
         stage.setTitle("New flight");
 
         TableView<Flight> table = new TableView<>();
-        List<Flight> tmp = new ArrayList<>();
-
-        for (String flight : controller.getFlightStringList()) {
-            tmp.add(controller.getFlightFromRedis(flight));
-        }
-
+        List<Flight> tmp = controller.getFlightList();
         ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
+
+
+
 
         final Label label = new Label("Flights table");
         label.setFont(new Font("Arial", 20));
@@ -78,8 +75,8 @@ public class AllFlightsWindow extends Dialog<Flight> {
             controller.clear();
         });
 
-        buttons.getChildren().addAll(addFlight,removeFlight,cleanAll);
-        allFlightsBox.getChildren().addAll(table, buttons,debugLabel);
+        buttons.getChildren().addAll(addFlight, removeFlight, cleanAll);
+        allFlightsBox.getChildren().addAll(table, buttons, debugLabel);
         root.getChildren().add(allFlightsBox);
 
         stage.setScene(new Scene(root, 300, 500));

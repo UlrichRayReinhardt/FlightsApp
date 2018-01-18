@@ -32,6 +32,10 @@ public class NewFlightDialog extends Dialog<Flight> {
         comboBoxto.setItems(list);
         comboBoxto.getSelectionModel().select(0);
 
+        ComboBox<AirPlaneType> planeTypeComboBox = new ComboBox<>();
+        planeTypeComboBox.getItems().setAll(AirPlaneType.values());
+        comboBoxto.getSelectionModel().select(0);
+
         VBox mainBox = new VBox();
         HBox builderBox = new HBox();
 
@@ -53,16 +57,12 @@ public class NewFlightDialog extends Dialog<Flight> {
 
         VBox vbox3 = new VBox();
         Label choosePlane = new Label("Choose plane:");
-        ComboBox<AirPlaneType> planeTypeComboBox = new ComboBox<>();
-        planeTypeComboBox.getItems().setAll(AirPlaneType.values());
-        comboBoxto.getSelectionModel().select(1);
         vbox3.getChildren().add(choosePlane);
         vbox3.getChildren().add(planeTypeComboBox);
 
         Label output = new Label();
         Button submit = new Button("Submit");
         submit.setOnAction(event -> {
-
             tmp = new FlightBuilder()
                     .setCompany(aircom.getText())
                     .setDeparture(controller.getCityFromRedis(comboBoxfrom.getValue()))
@@ -72,36 +72,16 @@ public class NewFlightDialog extends Dialog<Flight> {
             controller.addToRedis(tmp);
             output.setText("new Flight created"  + tmp.getInfo());
         });
+
+        Button addCityButton = new Button("Add City");
+        addCityButton.setOnAction(event -> new NewCityDialog(stage));
+
         builderBox.getChildren().addAll(vbox0, vbox1, vbox2, vbox3);
         mainBox.getChildren().addAll(builderBox, submit, output);
 
-      /*new Flight(
-                        new FlightContext
-                                (aircom.getAccessibleText(),
-                comboBoxfrom.getSelectionModel().getSelectedItem(),
-                comboBoxto.getSelectionModel().getSelectedItem(),
-                planeTypeComboBox.getSelectionModel().toString())),controller);*/
-
-
-        group.getChildren().add(mainBox);
+       group.getChildren().add(mainBox);
         stage.setScene(new Scene(group, 450, 200));
         stage.show();
-
-       /* Button getLocation = new Button("fetch location data");
-        content.getChildren().add(getLocation);
-        getLocation.setOnAction(event -> {
-            if (textField.getText() != null && !textField.getText().isEmpty()) {
-                Location location = Location.fetchLocation(textField.getText());
-                latresp.setText(String.valueOf(location.lat()));
-                lngresp.setText(String.valueOf(location.lng()));
-            }
-        });
-
-        Button submit = new Button("Submit");
-        content.getChildren().add(submit);
-        submit.setOnAction(event2 -> {
-
-        });*/
     }
 
 }

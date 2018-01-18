@@ -50,7 +50,6 @@ public class JedisController {
         jedis.hmset("flight:" + flight.getId(), data);
     }
 
-
     public void removeCity(String key) {
         Jedis jedis = null;
         try {
@@ -111,14 +110,14 @@ public class JedisController {
         }
     }
 
-    public List<String> getFlightStringList() {
-        List<String> list = new ArrayList<>();
+    public List<Flight> getFlightList() {
+        List<Flight> list = new ArrayList<>();
         Jedis jedis = pool.getResource();
         Set<String> data = jedis.keys("flight:" + "*");
         for (String name : data) {
-            City city = getCityFromRedis(name);
-            String cleanName = city.getName().replaceAll("flight:", "");
-            list.add(cleanName);
+            String cleanName = name.replaceAll("flight:", "");
+            Flight flight = getFlightFromRedis(cleanName);
+            list.add(flight);
         }
         return list;
     }

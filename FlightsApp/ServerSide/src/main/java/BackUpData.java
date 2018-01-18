@@ -1,5 +1,3 @@
-package FileRead;
-
 import FlightApp.FlightBuilder;
 import Jedis_db.JedisController;
 import Location.City;
@@ -9,17 +7,8 @@ import static FlightApp.AirPlaneType.AIRBUS_A330;
 import static FlightApp.AirPlaneType.EMBRAER_195;
 
 public class BackUpData {
-   /*     controller.addToRedis("BA", "London", "Kyiv", EMBRAER_170);
-        controller.addToRedis("BA", "London", "Riga", EMBRAER_195);
-        controller.addToRedis("BA", "London", "Tokyo", EMBRAER_190);
-        controller.addToRedis("BA", "London", "Paris", AIRBUS_A320);
-        controller.addToRedis("UI", "Dubai", "London", BOEING_737);
-        controller.addToRedis("UI", "Kyiv", "Riga", BOEING_737);
-        controller.addToRedis("UI", "Kyiv", "Paris", BOEING_737);
-        controller.addToRedis("UI", "Kyiv", "Dubai", BOEING_737);
-    }*/
 
-    public BackUpData(JedisPool pool) {
+     public BackUpData(JedisPool pool) {
         JedisController controller = new JedisController(pool);
         City london = new City("London", "51.5073509", "-0.1277583");
         City paris = new City("Paris", "48.856614", "2.3522219");

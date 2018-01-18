@@ -12,18 +12,8 @@ public class Flight { //class represents data in redis
     private String id;
     private String ticketPrice;
 
-/*    public Flight(String company, String departure, String destination, String airPlane, String code, String distance, String ticketPrice) {
-        this.company = company;
-        this.departure = departure;
-        this.destination = destination;
-        this.airPlane = airPlane;
-        this.distance = distance;
-        this.id = code;
-        this.ticketPrice =ticketPrice;
-    }*/
-
-    public String getDistance() {
-        return distance;
+    public String getCompany() {
+        return company;
     }
 
     public String getDeparture() {
@@ -32,6 +22,10 @@ public class Flight { //class represents data in redis
 
     public String getDestination() {
         return destination;
+    }
+
+    public String getDistance() {
+        return distance;
     }
 
     public String getAirPlane() {
@@ -57,17 +51,13 @@ public class Flight { //class represents data in redis
         return ticketPrice;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
     public Flight(FlightBuilder builder){
         this.company = builder.company;
         this.departure = builder.departure.getName();
         this.destination = builder.destination.getName();
         this.airPlane = builder.airPlane;
         this.distance = builder.distance();
-        this.id = builder.code();
+        this.id = builder.id();
         this.ticketPrice = builder.ticketPrice();
     }
    }
