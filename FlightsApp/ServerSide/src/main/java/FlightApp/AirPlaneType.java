@@ -26,7 +26,7 @@ public enum AirPlaneType {
 
     @Override
     public String toString() {
-        return this.name();
+        return this.mfr + " " + model;
     }
 
 }

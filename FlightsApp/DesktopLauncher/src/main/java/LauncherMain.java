@@ -1,84 +1,52 @@
 import FileRead.BackUpData;
-import FlightApp.Flight;
 import Jedis_db.JedisController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import redis.clients.jedis.JedisPool;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LauncherMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        InitServer.run();
+        //MainServer.main(new String[]{});
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
-        //controller.clear();
+
+        controller.clear();
         new BackUpData(pool);
 
-
-        TableView<Flight> table = new TableView<>();
-        List<Flight> tmp = new ArrayList<>();
-        for (String flight : controller.getFlightStringList()) {
-            tmp.add(controller.getFlightFromRedis(flight));
-        }
-        ObservableList<Flight> list = FXCollections.observableArrayList(tmp);
-
         Group flightsGroup = new Group();
-        final Label label = new Label("Flights table");
-        label.setFont(new Font("Arial", 20));
-        table.setEditable(false);
+        HBox hBox = new HBox();
 
-        TableColumn flightId = new TableColumn("ID");
-        flightId.setMinWidth(100);
-        flightId.setCellValueFactory(new PropertyValueFactory<Flight, String>("id"));
+        Label debugLabel = new Label("");
 
-        TableColumn cityFrom = new TableColumn("Departure");
-        cityFrom.setMinWidth(100);
-        cityFrom.setCellValueFactory(new PropertyValueFactory<Flight, String>("departure"));
+        VBox buttons = new VBox();
+        Button showAllButton = new Button("Show all flights in new window");
+        showAllButton.setOnAction((addFlightEvent) -> {
+            new AllFlightsWindow(controller);
+        });
 
-        TableColumn cityTo = new TableColumn("Destination");
-        cityTo.setMinWidth(100);
-        cityTo.setCellValueFactory(new PropertyValueFactory<Flight, String>("destination"));
-        table.setItems(list);
-        table.getColumns().addAll(flightId, cityFrom, cityTo);
+        buttons.setPadding(new Insets(10, 0, 0, 0));
 
-        final VBox vbox = new VBox();
-        vbox.setSpacing(5);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
-        vbox.getChildren().addAll(label, table);
-        flightsGroup.getChildren().addAll(vbox);
+        buttons.getChildren().addAll(showAllButton);
+        hBox.getChildren().addAll(buttons, debugLabel);
 
-        Button addFlight = new Button("Add new Flight");
-        addFlight.setOnAction(event -> new NewFlightDialog(controller));
-
-        flightsGroup.getChildren().add(addFlight);
+        flightsGroup.getChildren().add(hBox);
 
         primaryStage.setTitle("Flights app");
-        primaryStage.setScene(new Scene(flightsGroup, 320, 275));
+        primaryStage.setScene(new Scene(flightsGroup, 520, 275));
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
-
-
     }
-
-
 }

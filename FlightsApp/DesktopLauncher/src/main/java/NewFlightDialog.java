@@ -1,6 +1,6 @@
 import FlightApp.AirPlaneType;
 import FlightApp.Flight;
-import FlightApp.FlightContext;
+import FlightApp.FlightBuilder;
 import Jedis_db.JedisController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,9 +15,7 @@ import java.util.List;
 
 public class NewFlightDialog extends Dialog<Flight> {
 
-    FlightContext tmp = null;
-    Flight tmpObj = null;
-
+    Flight tmp;
     public NewFlightDialog(JedisController controller) {
         Stage stage = new Stage();
         stage.setTitle("New flight");
@@ -62,15 +60,20 @@ public class NewFlightDialog extends Dialog<Flight> {
         vbox3.getChildren().add(planeTypeComboBox);
 
         Label output = new Label();
-        Button addFlight = new Button("add Flight");
-        addFlight.setOnAction(event -> {
-            tmp = new FlightContext(aircom.getText(), comboBoxfrom.getValue(), comboBoxto.getValue(), planeTypeComboBox.getValue().toString());
-            tmpObj = FlightContext.createFromContext(tmp,controller);
-            controller.addToRedis(tmpObj);
-            output.setText("new Flight created"  + tmpObj.toString());
+        Button submit = new Button("Submit");
+        submit.setOnAction(event -> {
+
+            tmp = new FlightBuilder()
+                    .setCompany(aircom.getText())
+                    .setDeparture(controller.getCityFromRedis(comboBoxfrom.getValue()))
+                    .setDestination(controller.getCityFromRedis(comboBoxto.getValue()))
+                    .setAirplane(planeTypeComboBox.getValue().toString())
+                    .build();
+            controller.addToRedis(tmp);
+            output.setText("new Flight created"  + tmp.getInfo());
         });
         builderBox.getChildren().addAll(vbox0, vbox1, vbox2, vbox3);
-        mainBox.getChildren().addAll(builderBox, addFlight, output);
+        mainBox.getChildren().addAll(builderBox, submit, output);
 
       /*new Flight(
                         new FlightContext

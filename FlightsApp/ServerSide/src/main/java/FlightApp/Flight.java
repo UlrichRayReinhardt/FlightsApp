@@ -3,27 +3,26 @@ package FlightApp;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class Flight {
+public class Flight { //class represents data in redis
     private String company;
     private String departure;
     private String destination;
-    private double distance;
-    private String designatorsCode;
+    private String distance;
     private String airPlane;
     private String id;
-    private double ticketPrice;
+    private String ticketPrice;
 
-    public Flight(String company, String departure, String destination, String airPlane, String distance, String code, String ticketPrice) {
+/*    public Flight(String company, String departure, String destination, String airPlane, String code, String distance, String ticketPrice) {
         this.company = company;
         this.departure = departure;
         this.destination = destination;
         this.airPlane = airPlane;
-        this.distance = Double.valueOf(distance);
+        this.distance = distance;
         this.id = code;
-        this.ticketPrice = Double.valueOf(ticketPrice);
-    }
+        this.ticketPrice =ticketPrice;
+    }*/
 
-    public double getDistance() {
+    public String getDistance() {
         return distance;
     }
 
@@ -45,15 +44,16 @@ public class Flight {
 
     public String getInfo() {
         NumberFormat formatter = new DecimalFormat("#0.00");
+        double ticketTmp = Double.valueOf(ticketPrice);
         return "\n#" + company + " \n" +
                 id + "\n" +
                 departure + "\n" +
                 destination + "\n" +
                 airPlane + "\n" +
-                "# " + formatter.format(ticketPrice) + "$";
+                "# " + formatter.format(ticketTmp) + "$";
     }
 
-    public double getTicketPrice() {
+    public String getTicketPrice() {
         return ticketPrice;
     }
 
@@ -61,5 +61,13 @@ public class Flight {
         return company;
     }
 
-
-}
+    public Flight(FlightBuilder builder){
+        this.company = builder.company;
+        this.departure = builder.departure.getName();
+        this.destination = builder.destination.getName();
+        this.airPlane = builder.airPlane;
+        this.distance = builder.distance();
+        this.id = builder.code();
+        this.ticketPrice = builder.ticketPrice();
+    }
+   }
