@@ -1,45 +1,31 @@
 package FlightApp;
 
+import Jedis_db.CityController;
 import Location.City;
 import Location.Distance;
-
 
 public class FlightBuilder { //class builds new Flight
 
     String company;
-    City departure;
-    City destination;
+    City departure, destination;
     String airPlane;
+    double distance, ticketPrice;
 
-    public FlightBuilder() {
-    }
-
-    public FlightBuilder setCompany(String company) {
+    public FlightBuilder(String company, String departure, String destination, String airPlane) {
         this.company = company;
-        return this;
-    }
-
-    public FlightBuilder setDeparture(City departure) {
-        this.departure = departure;
-        return this;
-    }
-
-    public FlightBuilder setDestination(City destination) {
-        this.destination = destination;
-        return this;
-    }
-
-    public FlightBuilder setAirplane(String airPlane) {
+        this.departure = CityController.getCity(departure);
+        this.destination = CityController.getCity(destination);
         this.airPlane = airPlane;
-        return this;
+        checkDistance();
+        setTicketPrice();
     }
 
-    String distance() {
-        return String.valueOf(Distance.getDistance(departure.getLocation(), destination.getLocation()));
+    private void checkDistance() {
+        distance = Distance.getDistance(departure, destination);
     }
 
-    String id() {
-      String tmp = departure.codeLetter() + "" + destination.codeLetter() + "_" +
+    String name() {
+        String tmp = departure.getName().charAt(0) + "" + destination.getName().charAt(0) + "_" +
                 company.hashCode() % 10 + "" +
                 airPlane.hashCode() % 10 + "" +
                 departure.hashCode() % 10 + "" +
@@ -47,13 +33,15 @@ public class FlightBuilder { //class builds new Flight
         return tmp.replaceAll("-", "");
     }
 
-    String ticketPrice() {
-        return String.valueOf(Distance.getDistance(departure.getLocation(), destination.getLocation()) * 0.6);
-    }
-
     public Flight build() {
         return new Flight(this);
     }
 
+    private void setTicketPrice() {
+        ticketPrice = distance * 0.6;
+    }
 
+    public void setTicketPrice(double price) {
+        ticketPrice = price;
+    }
 }

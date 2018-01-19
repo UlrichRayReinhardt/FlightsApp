@@ -1,33 +1,13 @@
 package Jedis_db;
 
+import FlightApp.Suite;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.util.Set;
 
-public class JedisController {
+public class SuiteController extends JedisController{
 
-    JedisPool pool;
-
-    public JedisController(JedisPool pool) {
-        this.pool = pool;
-    }
-
-    public JedisController() {
-    }
-
-
-
-
-   public void clear() {
-        Jedis jedis = pool.getResource();
-        Set<String> keys = jedis.keys("*");
-        for (String key : keys) {
-            jedis.del(key);
-        }
-    }
-
-      /*public Suite load(String name); {
+    public Suite loadSuite(String name) {
         Jedis jedis = pool.getResource();
         jedis.smembers("suite:" + name);
         return new Suite(name, jedis.smembers("suite:" + name));
@@ -58,7 +38,5 @@ public class JedisController {
     public void removeSuite(String suiteName) { //remove flight from suite
         Jedis jedis = pool.getResource();
         jedis.srem("suite:" + suiteName);
-    }*/
+    }
 }
-
-

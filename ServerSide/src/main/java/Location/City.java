@@ -1,39 +1,51 @@
 package Location;
 
-public class City {
+import Jedis_db.StoreElement;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class City extends StoreElement{
     private String name;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
 
     public City(String name, String latitude, String longitude) {
         this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = (latitude != null) ? Double.valueOf(latitude) : 0;
+        //this.latitude = Double.valueOf(latitude);
+        this.longitude = (longitude != null) ? Double.valueOf(longitude) : 0;
     }
 
-    public Location getLocation(){
+    /*public Location getLocation() {
         return new Location(latitude, longitude);
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public char codeLetter() {
-        return name.charAt(0);
-    }
+    }*/
 
     public String getName() {
         return name;
     }
 
-    public String getLatitude() {
-        return latitude != null ? latitude : "0";
+   public String getInfo() {
+        return "#" + name +
+                "lat:" + latitude +
+                "lng:" + longitude;
+
     }
 
-    public String getLongitude() {
-        return longitude != null ? longitude : "0";
-
+    @Override
+    public Map<String, String> getProperties() {
+        Map<String, String> properties = new HashMap<>();
+        properties.put("name", name);
+        properties.put("latitude", String.valueOf(latitude));
+        properties.put("longitude", String.valueOf(longitude));
+        return properties;
     }
 }

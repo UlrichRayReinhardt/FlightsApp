@@ -1,63 +1,59 @@
 package FlightApp;
 
+import Jedis_db.StoreElement;
+import Location.City;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Flight { //class represents data in redis
-    private String company;
-    private String departure;
-    private String destination;
-    private String distance;
-    private String airPlane;
-    private String id;
-    private String ticketPrice;
-
-    public String getCompany() {
-        return company;
-    }
-
-    public String getDeparture() {
-        return departure;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public String getAirPlane() {
-        return airPlane;
-    }
-
-    public String getId() {
-        return id;
-    }
+public class Flight extends StoreElement { //class represents data in redis
+    private final String name;
+    private final String company;
+    private final City departure;
+    private final City destination;
+    private AirPlaneType airPlane;
+    private final double distance;
+    private double ticketPrice;
 
     public String getInfo() {
         NumberFormat formatter = new DecimalFormat("#0.00");
-        double ticketTmp = Double.valueOf(ticketPrice);
-        return "\n#" + company + " \n" +
-                id + "\n" +
-                departure + "\n" +
-                destination + "\n" +
-                airPlane + "\n" +
-                "# " + formatter.format(ticketTmp) + "$";
+        return "#" + name + " " +
+                company + " " +
+                departure + " " +
+                destination + " " +
+                airPlane + " " +
+                " ticket " + formatter.format(ticketPrice) + "$";
     }
 
-    public String getTicketPrice() {
-        return ticketPrice;
-    }
+    /*return new FlightBuilder().setCompany(data.get("company"))
+                .setDeparture(getCityFromRedis(data.get("departure")))
+                .setDestination(getCityFromRedis(data.get("destination")))
+                .setAirplane(data.get("airplane"))
+                .build();
+                }
+                */
 
-    public Flight(FlightBuilder builder){
+    public Flight(FlightBuilder builder) {
+        this.name = builder.name();
         this.company = builder.company;
-        this.departure = builder.departure.getName();
-        this.destination = builder.destination.getName();
-        this.airPlane = builder.airPlane;
-        this.distance = builder.distance();
-        this.id = builder.id();
-        this.ticketPrice = builder.ticketPrice();
+        this.departure = builder.departure;
+        this.destination = builder.destination;
+        this.airPlane = AirPlaneType.valueOf(builder.airPlane);
+        this.distance = builder.distance;
+        this.ticketPrice = builder.ticketPrice;
     }
-   }
+
+    public Map<String, String> getProperties() { //uses for serializable and put to redis
+        Map<String, String> properties = new HashMap<>();
+        properties.put("name", name);
+        properties.put("company", company);
+        properties.put("departure", departure.getName());
+        properties.put("destination", destination.getName());
+        properties.put("airplane", airPlane.toString());
+        properties.put("distance", String.valueOf(distance));
+        properties.put("ticketPrice", String.valueOf(ticketPrice));
+        return properties;
+    }
+}

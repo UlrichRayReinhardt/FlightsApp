@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Suite extends HashSet<String> {
+public class Suite<Flight> extends HashSet<String> {
 
     String suiteName;
 
-    public Suite(String suiteName, Set<String> flightName) {
+    public Suite(String suiteName, Set<String> set) {
         this.suiteName = suiteName;
-        addAll(flightName);
+        addAll(set);
     }
 
     public String getName() {

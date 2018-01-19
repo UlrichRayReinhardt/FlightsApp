@@ -2,12 +2,12 @@ package Location;
 
 public class Distance {
 
-    public static double getDistance(Location from, Location to) {
+    public static double getDistance(City from, City to) {
         return checkDistance(
-                from.lat(),
-                from.lng(),
-                to.lat(),
-                to.lng());
+                from.getLatitude(),
+                from.getLongitude(),
+                to.getLatitude(),
+                to.getLongitude());
     }
 
     private static double checkDistance(double lat1, double lon1, double lat2, double lon2) {
