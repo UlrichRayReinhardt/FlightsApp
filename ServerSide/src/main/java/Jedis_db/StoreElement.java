@@ -7,7 +7,6 @@ public abstract class StoreElement<T> {
     private String name;
     public abstract String getInfo();
 
-
     public String getName() {
         return name;
     }

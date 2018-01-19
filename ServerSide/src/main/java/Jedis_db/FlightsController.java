@@ -13,10 +13,14 @@ public class FlightsController extends JedisController {
 
     private static Set<Flight> flights;
 
-    FlightsController(JedisPool pool) {
+    public FlightsController(JedisPool pool) {
         this.pool = pool;
         flights = new HashSet<>();
         loadFlights();
+    }
+
+    public static Set<Flight> getFlights() {
+        return flights;
     }
 
     private void loadFlights() {

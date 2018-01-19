@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Flight extends StoreElement { //class represents data in redis
+public class Flight extends StoreElement implements Suitable{ //class represents data in redis
     private final String name;
     private final String company;
     private final City departure;

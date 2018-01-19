@@ -1,4 +1,4 @@
 package FlightApp;
 
-public class Suitable {
+public interface Suitable {
 }
