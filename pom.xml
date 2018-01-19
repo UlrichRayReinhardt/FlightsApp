@@ -7,9 +7,11 @@
     <artifactId>root</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
-        <module>FlightsApp/DesktopLauncher</module>
-        <module>FlightsApp/ServerSide</module>
+        <module>ServerSide</module>
+        <module>DesktopLauncher</module>
+        <module>ConsoleDemo</module>
     </modules>
 
     <dependencies>

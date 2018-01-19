@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ConsoleDemo" />
         <module name="DesktopLauncher" />
         <module name="ServerSide" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ConsoleDemo" target="1.8" />
       <module name="DesktopLauncher" target="1.8" />
       <module name="FlightsApp" target="1.5" />
       <module name="ServerSide" target="1.8" />

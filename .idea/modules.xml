@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FlightsApp/DesktopLauncher/DesktopLauncher.iml" filepath="$PROJECT_DIR$/FlightsApp/DesktopLauncher/DesktopLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ConsoleDemo/ConsoleDemo.iml" filepath="$PROJECT_DIR$/ConsoleDemo/ConsoleDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DesktopLauncher/DesktopLauncher.iml" filepath="$PROJECT_DIR$/DesktopLauncher/DesktopLauncher.iml" />
       <module fileurl="file://$PROJECT_DIR$/FlightsApp.iml" filepath="$PROJECT_DIR$/FlightsApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FlightsApp/ServerSide/ServerSide.iml" filepath="$PROJECT_DIR$/FlightsApp/ServerSide/ServerSide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ServerSide/ServerSide.iml" filepath="$PROJECT_DIR$/ServerSide/ServerSide.iml" />
     </modules>
   </component>
 </project>

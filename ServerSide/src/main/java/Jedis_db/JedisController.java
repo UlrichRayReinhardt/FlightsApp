@@ -38,16 +38,6 @@ public class JedisController {
         }
     }
 
-    public void addToRedis(Suite suite) {
-        Jedis jedis = pool.getResource();
-        byte[] data;
-        for (Flight flight : suite.getList())
-            flight.getId();
-                String id = suite.getName();
-        //jedis.rpush(id.getBytes(), data);
-
-    }
-
     public void addToRedis(Flight flight) {
         Jedis jedis = pool.getResource();
         Map<String, String> data = new HashMap<>();
@@ -133,7 +123,6 @@ public class JedisController {
         return list;
     }
 
-
     public List<String> getCityList() {
         List<String> list = new ArrayList<>();
         Jedis jedis = pool.getResource();
@@ -147,29 +136,38 @@ public class JedisController {
         return list;
     }
 
-    public List<Suite> getSiutsList() {
-        List<Suite> list = new ArrayList<>();
+    public Suite loadSuite(String name) {
         Jedis jedis = pool.getResource();
-        Set<String> data = jedis.keys("suite:*");
-        for (String name : data) {
-            String cleanName = name.replaceAll("suite:", "");
-            Suite suite = getSuiteFromRedis(name);
-            list.add(suite);
-
-        }
-        return list;
+        jedis.smembers("suite:" + name);
+        return new Suite(name, jedis.smembers("suite:" + name));
     }
 
-    private Suite getSuiteFromRedis(String name) {
-        Jedis jedis = null;
-        try {
-            jedis = pool.getResource();
-            Map<String, String> suite = jedis.hgetAll("suite:" + name);
-
-            return new Suite(name, );
-        } finally {
-            if (null != jedis)
-                pool.returnResource(jedis);
+    public void addToRedis(String suiteName, Set<String> flights) { //add new suite
+        Jedis jedis = pool.getResource();
+        for (String flightname : flights) {
+            jedis.sadd("suite:" + suiteName, flightname);
         }
+    }
+
+    public void addToRedis(String suiteName, String... flights) { //add new suite
+        Jedis jedis = pool.getResource();
+        jedis.sadd("suite:" + suiteName, flights);
+
+    }
+
+    public void removeFromSuite(String suiteName, String flight) { //remove flight from suite
+        Jedis jedis = pool.getResource();
+        jedis.srem("suite:" + suiteName, flight);
+    }
+    public void removeFromSuite(Suite suite, String flight) { //remove flight from suite
+        Jedis jedis = pool.getResource();
+        jedis.srem("suite:" + suite.getName(), flight);
+    }
+
+    public void removeSuite(String suiteName) { //remove flight from suite
+        Jedis jedis = pool.getResource();
+        jedis.srem("suite:" + suiteName);
     }
 }
+
+

@@ -1,5 +1,6 @@
 import FlightApp.Flight;
 import Jedis_db.JedisController;
+import Jedis_db.RedisThreat;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +25,7 @@ public class LauncherMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        //new RedisThreat().runRedis();
+        new RedisThreat().runRedis();
         JedisPool pool = new JedisPool("localhost");
         JedisController controller = new JedisController(pool);
 
